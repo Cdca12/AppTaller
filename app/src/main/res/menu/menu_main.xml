@@ -3,9 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.apptaller.MainActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <item android:title="Item" />
+        android:id="@+id/itemPersonas"
+        android:title="Personas" />
+    <item
+        android:id="@+id/itemAutos"
+        android:title="Autos" />
+    <item
+        android:id="@+id/itemServicios"
+        android:title="Servicios" />
 </menu>

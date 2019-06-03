@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,8 +35,19 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+       if(id == R.id.itemAutos) {
+            Toast toast = Toast.makeText(this, "Activity Autos", Toast.LENGTH_SHORT);
+            toast.show();
+            return true;
+       }
+        if(id == R.id.itemPersonas) {
+            Toast toast = Toast.makeText(this, "Activity Personas", Toast.LENGTH_SHORT);
+            toast.show();
+            return true;
+        }
+        if(id == R.id.itemServicios) {
+            Toast toast = Toast.makeText(this, "Activity Servicios", Toast.LENGTH_SHORT);
+            toast.show();
             return true;
         }
 
