@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class Autos extends AppCompatActivity {
     private EditText etMarca, etModelo, etAño, etPlaca;
-    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar, nuke;
+    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar, btnNuke;
 
     // Conexión a base de datos
     private BaseDeDatos conexion;
@@ -43,6 +43,7 @@ public class Autos extends AppCompatActivity {
         btnConsultar = (Button) findViewById(R.id.btnConsultar);
         btnModificar = (Button) findViewById(R.id.btnModificar);
         btnEliminar = (Button) findViewById(R.id.btnEliminar);
+        btnNuke = (Button) findViewById(R.id.btnNuke);
     }
     private void addListeners() {
         etPlaca.addTextChangedListener(new TextWatcher() {
@@ -72,6 +73,9 @@ public class Autos extends AppCompatActivity {
         btnEliminar.setOnClickListener(view -> {
             eliminarAuto();
         });
+        btnNuke.setOnClickListener(view -> {
+            eliminarTodo();
+        });
     }
 
     private boolean conectarBaseDeDatos() {
@@ -83,8 +87,7 @@ public class Autos extends AppCompatActivity {
             alertDialog.show();
             return false;
         }
-        Toast toast = Toast.makeText(this, "Conexión a la bd establecida", Toast.LENGTH_SHORT);
-        toast.show();
+        // Conexión a la bd establecida
         return true;
     }
 
@@ -112,7 +115,7 @@ public class Autos extends AppCompatActivity {
             alertDialog.show();
             return;
         }
-        String query = "INSERT INTO PERSONAS (RFC, Nombre, Ciudad, EstatusPersona) " +
+        String query = "INSERT INTO AUTOS " +
                 "VALUES ('" + etPlaca.getText().toString().toUpperCase() + "', '"
                 + etMarca.getText().toString() + "', '"
                 + etModelo.getText().toString() + "', '"
@@ -189,7 +192,6 @@ public class Autos extends AppCompatActivity {
         }
 
         // Valida que no esté dado de baja
-
         if (estaDadoBaja()) {
             Toast toast = Toast.makeText(this, "El auto está dado de baja", Toast.LENGTH_SHORT);
             toast.show();
@@ -224,7 +226,7 @@ public class Autos extends AppCompatActivity {
             String query = "UPDATE AUTOS " +
                     "SET Placa = '" + etPlaca.getText().toString().toUpperCase() + "', " +
                     "Marca = '" + etMarca.getText().toString() + "', " +
-                    "Modelo = '" + etModelo.getText().toString() + "' " +
+                    "Modelo = '" + etModelo.getText().toString() + "', " +
                     "Año = '" + etAño.getText().toString() + "' " +
                     "WHERE Placa = '" + etPlaca.getText().toString().toUpperCase() + "';";
             bd = conexion.getWritableDatabase();
@@ -239,8 +241,8 @@ public class Autos extends AppCompatActivity {
 
     private void eliminarAuto() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Eliminar " + etMarca.getText().toString());
-        alertDialog.setMessage("¿Seguro que desea eliminar a este auto?");
+        alertDialog.setTitle("Eliminar " + etMarca.getText().toString() + " " + etModelo.getText().toString());
+        alertDialog.setMessage("¿Seguro que desea eliminar este auto?");
         alertDialog.setNegativeButton("No", ((dialog, which) -> {
         }));
         alertDialog.setPositiveButton("Si", ((dialog, which) -> {
@@ -255,5 +257,14 @@ public class Autos extends AppCompatActivity {
             limpiarCampos();
         }));
         alertDialog.show();
+    }
+
+    private void eliminarTodo() {
+        String query = "DELETE FROM AUTOS;";
+        bd = conexion.getWritableDatabase();
+        bd.execSQL(query);
+        Toast toast = Toast.makeText(this, "Se han eliminado todos los autos", Toast.LENGTH_SHORT);
+        toast.show();
+        bd.close();
     }
 }

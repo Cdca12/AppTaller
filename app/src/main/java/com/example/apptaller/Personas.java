@@ -2,7 +2,6 @@ package com.example.apptaller;
 
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,7 @@ import android.widget.*;
 public class Personas extends AppCompatActivity {
 
     private EditText etNombre, etRFC, etCiudad;
-    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar, nuke;
+    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar, btnNuke;
 
     // Conexión a base de datos
     private BaseDeDatos conexion;
@@ -42,7 +41,7 @@ public class Personas extends AppCompatActivity {
         btnConsultar = (Button) findViewById(R.id.btnConsultar);
         btnModificar = (Button) findViewById(R.id.btnModificar);
         btnEliminar = (Button) findViewById(R.id.btnEliminar);
-        nuke = (Button) findViewById(R.id.nuke);
+        btnNuke = (Button) findViewById(R.id.btnNuke);
     }
 
     private void addListeners() {
@@ -72,7 +71,7 @@ public class Personas extends AppCompatActivity {
         btnEliminar.setOnClickListener(view -> {
             eliminarPersona();
         });
-        nuke.setOnClickListener(view -> {
+        btnNuke.setOnClickListener(view -> {
             eliminarTodo();
         });
     }
@@ -114,7 +113,7 @@ public class Personas extends AppCompatActivity {
             alertDialog.show();
             return;
         }
-        String query = "INSERT INTO PERSONAS (RFC, Nombre, Ciudad, EstatusPersona) " +
+        String query = "INSERT INTO PERSONAS " +
                 "VALUES ('" + etRFC.getText().toString().toUpperCase() + "', '"
                 + etNombre.getText().toString() + "', '"
                 + etCiudad.getText().toString() + "', 1);";

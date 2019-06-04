@@ -7,17 +7,17 @@
     tools:context=".Autos">
 
     <EditText
-        android:id="@+id/etAño"
+        android:id="@+id/etMarca"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="100dp"
         android:ems="10"
-        android:hint="Año"
+        android:hint="Marca"
         android:inputType="textPersonName"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etModelo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etModelo"
@@ -33,6 +33,19 @@
         app:layout_constraintTop_toBottomOf="@+id/etMarca" />
 
     <EditText
+        android:id="@+id/etAño"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Año"
+        android:inputType="textPersonName"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etModelo" />
+
+    <EditText
         android:id="@+id/etPlaca"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,18 +58,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etAño" />
 
-    <EditText
-        android:id="@+id/etMarca"
+    <Button
+        android:id="@+id/btnNuke"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="100dp"
-        android:ems="10"
-        android:hint="Marca"
-        android:inputType="textPersonName"
-        android:textSize="24sp"
+        android:layout_marginTop="63dp"
+        android:text="Nuke"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
