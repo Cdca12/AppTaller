@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Conexión a base de datos
+    private BaseDeDatos conexion;
+    private SQLiteDatabase bd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (!conectarBaseDeDatos()) {
+            return;
+        }
 
     }
 
@@ -56,6 +63,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean conectarBaseDeDatos() {
+        conexion = conexion.getInstance(this);
+        if (conexion == null) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Error de conexión");
+            alertDialog.setMessage("No fue posible conectarse a la base de datos");
+            alertDialog.show();
+            return false;
+        }
+        Toast toast = Toast.makeText(this, "Conexión a la bd establecida", Toast.LENGTH_SHORT);
+        toast.show();
+        return true;
     }
 
 

@@ -17,14 +17,21 @@ public class BaseDeDatos extends SQLiteOpenHelper {
                 "Nombre text NOT NULL," +
                 "Ciudad text NOT NULL," +
                 "EstatusPersona integer DEFAULT 1 NOT NULL);";
-        queryAutos = "CREATE TABLE ";
+        queryAutos = "CREATE TABLE AUTOS(" +
+                "   Placa text PRIMARY KEY," +
+                "   Marca text NOT NULL," +
+                "   Modelo text NOT NULL," +
+                "   Año integer NOT NULL," +
+                "   EstatusAuto integer DEFAULT 1 NOT NULL);";
         queryServicios = "CREATE TABLE SERVICIOS(" +
                 "Orden int PRIMARY KEY, " +
                 "Placa text NOT NULL, " +
                 "RFC text NOT NULL, " +
-                "KM int NOT NULL, " +
+                "KM integer NOT NULL, " +
                 "Precio float NOT NULL," +
-                "Fecha text NOT NULL);";
+                "Fecha text NOT NULL, " +
+                "FOREIGN KEY (Placa) REFERENCES AUTOS(Placa), " +
+                "FOREIGN KEY (RFC) REFERENCES PERSONAS(RFC));";
     }
 
     public static BaseDeDatos getInstance(Context context) {
@@ -37,22 +44,19 @@ public class BaseDeDatos extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(queryPersonas);
+        db.execSQL(queryAutos);
+        db.execSQL(queryServicios);
         version++;
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS queryUsuarios;");
-        db.execSQL(queryUsuarios);
-        queryAutos = "CREATE TABLE AUTOS(" +
-                "   Placa text PRIMARY KEY," +
-                "   Marca text NOT NULL," +
-                "   Modelo text NOT NULL," +
-                "   Año integer NOT NULL," +
-                "   EstatusAuto integer DEFAULT 1 NOT NULL);";
-        db.execSQL(queryAutos);
         db.execSQL("DROP TABLE IF EXISTS queryPersonas;");
         db.execSQL(queryPersonas);
+        db.execSQL("DROP TABLE IF EXISTS queryAutos;");
+        db.execSQL(queryAutos);
+        db.execSQL("DROP TABLE IF EXISTS queryServicios;");
+        db.execSQL(queryServicios);
     }
 
 }
