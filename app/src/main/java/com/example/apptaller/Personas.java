@@ -37,6 +37,7 @@ public class Personas extends AppCompatActivity {
         etNombre = (EditText) findViewById(R.id.etNombre);
         etRFC = (EditText) findViewById(R.id.etRFC);
         etCiudad = (EditText) findViewById(R.id.etCiudad);
+
         btnAñadir = (Button) findViewById(R.id.btnAñadir);
         btnConsultar = (Button) findViewById(R.id.btnConsultar);
         btnModificar = (Button) findViewById(R.id.btnModificar);
@@ -117,6 +118,7 @@ public class Personas extends AppCompatActivity {
                 "VALUES ('" + etRFC.getText().toString().toUpperCase() + "', '"
                 + etNombre.getText().toString() + "', '"
                 + etCiudad.getText().toString() + "', 1);";
+
         bd = conexion.getWritableDatabase();
 
         // ID Repetido, entra excepcion

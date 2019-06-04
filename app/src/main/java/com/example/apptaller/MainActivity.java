@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.itemServicios) {
-            Toast toast = Toast.makeText(this, "Activity Servicios", Toast.LENGTH_SHORT);
-            toast.show();
+            Intent intent = new Intent(this, Servicios.class);
+            startActivity(intent);
             return true;
         }
 
