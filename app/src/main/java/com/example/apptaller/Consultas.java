@@ -30,13 +30,11 @@ public class Consultas extends AppCompatActivity {
 
         query = getIntent().getStringExtra("query");
 
-
         // bindComponents();
         listaConsulta = (ListView) findViewById(R.id.listaConsulta);
         infoConsulta = new ArrayList<String>();
 
-        Toast toast = Toast.makeText(this, query, Toast.LENGTH_SHORT);
-        toast.show();
+        rellenarLista();
     }
 
     private void bindComponents() {
@@ -59,5 +57,28 @@ public class Consultas extends AppCompatActivity {
     private void rellenarLista() {
         bd = conexion.getWritableDatabase();
         Cursor cursor = bd.rawQuery(query, null);
+
+        LinearLayout headers = (LinearLayout) findViewById(R.id.headers);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f
+        );
+
+        TextView encabezado1 = new TextView(this);
+        encabezado1.setText("RFC");
+        // encabezado1.setLayoutParams(params);
+        headers.addView(encabezado1);
+
+
+        while (cursor.moveToNext()) {
+
+            infoConsulta.add(cursor.getString(0));
+        }
+
+
+
+        bd.close();
     }
 }

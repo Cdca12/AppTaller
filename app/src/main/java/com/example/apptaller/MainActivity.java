@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         String query;
         if (id == R.id.itemPrimeraConsulta) {
             Intent intent = new Intent(this, Consultas.class);
-            query = "Primera Consulta";
+            query = "SELECT * FROM PERSONAS;";
             intent.putExtra("query", query);
             startActivity(intent);
             return true;
