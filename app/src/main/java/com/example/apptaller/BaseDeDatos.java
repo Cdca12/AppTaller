@@ -9,6 +9,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
     private static BaseDeDatos instanciaBD;
     private static int version = 1;
     private String queryUsuarios;
+    private String queryAutos;
 
     private BaseDeDatos(Context contexto, String nombre, SQLiteDatabase.CursorFactory factory, int version) {
         super(contexto, nombre, factory, version);
@@ -36,6 +37,13 @@ public class BaseDeDatos extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS queryUsuarios;");
         db.execSQL(queryUsuarios);
+        queryAutos = "CREATE TABLE AUTOS(" +
+                "   Placa text PRIMARY KEY," +
+                "   Marca text NOT NULL," +
+                "   Modelo text NOT NULL," +
+                "   Año integer NOT NULL," +
+                "   EstatusAuto integer DEFAULT 1 NOT NULL);";
+        db.execSQL(queryAutos);
     }
 
 }

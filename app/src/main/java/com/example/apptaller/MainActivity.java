@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.itemAutos) {
-
+            Intent intent = new Intent(this, Autos.class);
+            startActivity(intent);
             return true;
         }
         if (id == R.id.itemPersonas) {
