@@ -30,6 +30,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
                 "KM integer NOT NULL, " +
                 "Precio float NOT NULL," +
                 "Fecha text NOT NULL, " +
+                "EstatusServicio integer DEFAULT 1  NOT NULL, " +
                 "FOREIGN KEY (Placa) REFERENCES AUTOS(Placa), " +
                 "FOREIGN KEY (RFC) REFERENCES PERSONAS(RFC));";
     }

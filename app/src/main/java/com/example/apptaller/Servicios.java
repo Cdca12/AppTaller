@@ -87,16 +87,26 @@ public class Servicios extends AppCompatActivity {
             alertDialog.show();
             return;
         }
-        // TODO: Validar existe Persona
-        // TODO: Validar existe Auto
+
+        // Validar que exista en las tablas
+        if(!existePersona()) {
+            Toast toast = Toast.makeText(this, "No existe una persona con ese RFC", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+        if(!existeAuto()) {
+            Toast toast = Toast.makeText(this, "No existe un Auto con esa Placa", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
 
         String query = "INSERT INTO SERVICIOS " +
-                "VALUES ('" + etOrden.getText().toString() + "', '"
+                "VALUES (" + etOrden.getText().toString() + ", '"
                 + etPlaca.getText().toString().toUpperCase() + "', '"
-                + etRFC.getText().toString().toUpperCase() + "', '"
-                + etKM.getText().toString() + "', '"
-                + etPrecio.getText().toString() + "', '"
-                + etFecha.getText().toString() + "', 1);"; // Quitar los /
+                + etRFC.getText().toString().toUpperCase() + "', "
+                + etKM.getText().toString() + ", "
+                + etPrecio.getText().toString() + ", '"
+                + etFecha.getText().toString() + "', 1);";
 
         bd = conexion.getWritableDatabase();
 
@@ -111,7 +121,7 @@ public class Servicios extends AppCompatActivity {
             bd.close(); // Cerrar conexión a Base de Datos por seguridad
         }
         limpiarCampos();
-        Toast toast = Toast.makeText(this, "Persona añadida exitosamente", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, "Servicio añadido exitosamente", Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -123,7 +133,7 @@ public class Servicios extends AppCompatActivity {
             return;
         }
         String query = "SELECT * FROM SERVICIOS " +
-                "WHERE Orden = '" + etOrden.getText().toString().toUpperCase() + "' " +
+                "WHERE Orden = " + etOrden.getText().toString().toUpperCase() + " " +
                 "AND EstatusServicio = 1;";
 
         bd = conexion.getWritableDatabase();
@@ -151,18 +161,53 @@ public class Servicios extends AppCompatActivity {
     }
 
     private void modificarServicio() {
-        
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Confirmar cambios");
+        alertDialog.setMessage("¿Desea confirmar los cambios?\nNo se modificará la Placa ni el RFC");
+        alertDialog.setNegativeButton("No", ((dialog, which) -> {
+        }));
+        alertDialog.setPositiveButton("Si", ((dialog, which) -> {
+            String query = "UPDATE SERVICIOS " +
+                    "SET KM = " + etKM.getText().toString() + ", " +
+                    "Precio = " + etPrecio.getText().toString() + ", " +
+                    "Fecha = '" + etFecha.getText().toString() + "' " +
+                    "WHERE Orden = " + etOrden.getText().toString() + ";";
+
+            bd = conexion.getWritableDatabase();
+            bd.execSQL(query);
+            Toast toast = Toast.makeText(this, "Se ha dado modificado el servicio", Toast.LENGTH_SHORT);
+            toast.show();
+            bd.close();
+            limpiarCampos();
+        }));
+        alertDialog.show();
     }
 
     private void eliminarServicio() {
-
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Eliminar Servicio (" + etOrden.getText().toString() + ") del día " + etFecha.getText().toString());
+        alertDialog.setMessage("¿Seguro que desea eliminar este servicio?");
+        alertDialog.setNegativeButton("No", ((dialog, which) -> {
+        }));
+        alertDialog.setPositiveButton("Si", ((dialog, which) -> {
+            String query = "UPDATE SERVICIOS " +
+                    "SET EstatusServicio = 0 " +
+                    "WHERE Orden = " + etOrden.getText().toString() + ";";
+            bd = conexion.getWritableDatabase();
+            bd.execSQL(query);
+            Toast toast = Toast.makeText(this, "Se ha dado de baja el servicio", Toast.LENGTH_SHORT);
+            toast.show();
+            bd.close();
+            limpiarCampos();
+        }));
+        alertDialog.show();
     }
 
     private void eliminarTodo() {
-        String query = "DELETE FROM PERSONAS;";
+        String query = "DELETE FROM SERVICIOS;";
         bd = conexion.getWritableDatabase();
         bd.execSQL(query);
-        Toast toast = Toast.makeText(this, "Se han eliminado todas las personas", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, "Se han eliminado todos los servicios", Toast.LENGTH_SHORT);
         toast.show();
         bd.close();
     }
@@ -205,6 +250,22 @@ public class Servicios extends AppCompatActivity {
         etPrecio.setText(null);
         etFecha.setText(null);
         etOrden.requestFocus();
+    }
+
+    private boolean existePersona() {
+        String query = "SELECT RFC FROM PERSONAS " +
+                "WHERE RFC = '" + etRFC.getText().toString().toUpperCase() + "';";
+        bd = conexion.getWritableDatabase();
+        Cursor cursor = bd.rawQuery(query, null);
+        return (cursor.getCount() == 0) ? false : true;
+    }
+
+    private boolean existeAuto() {
+        String query = "SELECT Placa FROM AUTOS " +
+                "WHERE Placa = '" + etPlaca.getText().toString().toUpperCase() + "';";
+        bd = conexion.getWritableDatabase();
+        Cursor cursor = bd.rawQuery(query, null);
+        return (cursor.getCount() == 0) ? false : true;
     }
 
 }

@@ -186,7 +186,7 @@ public class Autos extends AppCompatActivity {
 
         // Validar que haya traido datos
         if (cursor.getCount() == 0) {
-            Toast toast = Toast.makeText(this, "No existe un auto con esa placa", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, "No existe un Auto con esa Placa", Toast.LENGTH_SHORT);
             toast.show();
             return;
         }
