@@ -87,8 +87,8 @@ public class Servicios extends AppCompatActivity {
             alertDialog.show();
             return;
         }
-        // Validar existe Persona
-        // Validar existe Auto
+        // TODO: Validar existe Persona
+        // TODO: Validar existe Auto
 
         String query = "INSERT INTO SERVICIOS " +
                 "VALUES ('" + etOrden.getText().toString() + "', '"
@@ -123,7 +123,8 @@ public class Servicios extends AppCompatActivity {
             return;
         }
         String query = "SELECT * FROM SERVICIOS " +
-                "WHERE Orden = '" + etOrden.getText().toString().toUpperCase() + "';";
+                "WHERE Orden = '" + etOrden.getText().toString().toUpperCase() + "' " +
+                "AND EstatusServicio = 1;";
 
         bd = conexion.getWritableDatabase();
         Cursor cursor = bd.rawQuery(query, null);
@@ -147,11 +148,10 @@ public class Servicios extends AppCompatActivity {
         habilitarBotones(true);
 
         bd.close();
-
     }
 
     private void modificarServicio() {
-
+        
     }
 
     private void eliminarServicio() {
