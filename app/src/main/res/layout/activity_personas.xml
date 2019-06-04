@@ -58,14 +58,14 @@
         app:layout_constraintTop_toBottomOf="@+id/etCiudad">
 
         <Button
-            android:id="@+id/btnAñadir"
+            android:id="@+id/btnPrimeraConsulta"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Añadir" />
 
         <Button
-            android:id="@+id/btnConsultar"
+            android:id="@+id/btnSegundaConsulta"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"

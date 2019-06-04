@@ -38,8 +38,8 @@ public class Personas extends AppCompatActivity {
         etRFC = (EditText) findViewById(R.id.etRFC);
         etCiudad = (EditText) findViewById(R.id.etCiudad);
 
-        btnAñadir = (Button) findViewById(R.id.btnAñadir);
-        btnConsultar = (Button) findViewById(R.id.btnConsultar);
+        btnAñadir = (Button) findViewById(R.id.btnPrimeraConsulta);
+        btnConsultar = (Button) findViewById(R.id.btnSegundaConsulta);
         btnModificar = (Button) findViewById(R.id.btnModificar);
         btnEliminar = (Button) findViewById(R.id.btnEliminar);
         btnNuke = (Button) findViewById(R.id.btnNuke);

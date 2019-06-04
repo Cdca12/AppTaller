@@ -40,8 +40,8 @@ public class Servicios extends AppCompatActivity {
         etPrecio = (EditText) findViewById(R.id.etPrecio);
         etFecha = (EditText) findViewById(R.id.etFecha);
 
-        btnAñadir = (Button) findViewById(R.id.btnAñadir);
-        btnConsultar = (Button) findViewById(R.id.btnConsultar);
+        btnAñadir = (Button) findViewById(R.id.btnPrimeraConsulta);
+        btnConsultar = (Button) findViewById(R.id.btnSegundaConsulta);
         btnModificar = (Button) findViewById(R.id.btnModificar);
         btnEliminar = (Button) findViewById(R.id.btnEliminar);
         btnNuke = (Button) findViewById(R.id.btnNuke);

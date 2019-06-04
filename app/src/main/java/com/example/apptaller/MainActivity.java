@@ -3,12 +3,9 @@ package com.example.apptaller;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -61,6 +58,30 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+        // Menu Consultas
+        String query;
+        if (id == R.id.itemPrimeraConsulta) {
+            Intent intent = new Intent(this, Consultas.class);
+            query = "Primera Consulta";
+            intent.putExtra("query", query);
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.itemSegundaConsulta) {
+            Intent intent = new Intent(this, Consultas.class);
+            query = "Segunda Consulta";
+            intent.putExtra("query", query);
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.itemTerceraConsulta) {
+            Intent intent = new Intent(this, Consultas.class);
+            query = "Tercera Consulta";
+            intent.putExtra("query", query);
+            startActivity(intent);
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

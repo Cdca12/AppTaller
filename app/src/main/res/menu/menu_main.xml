@@ -10,5 +10,20 @@
         android:title="Autos" />
     <item
         android:id="@+id/itemServicios"
-        android:title="Servicios" />
+        android:title="Servicios" ></item>
+    <item
+        android:id="@+id/menuConsultas"
+        android:title="Consultas">
+        <menu >
+            <item
+                android:id="@+id/itemPrimeraConsulta"
+                android:title="Ingresos por Ciudad" />
+            <item
+                android:id="@+id/itemSegundaConsulta"
+                android:title="Servicios Año-Ciudad-Marca" />
+            <item
+                android:id="@+id/itemTerceraConsulta"
+                android:title="Personas sin Autos en Servicio" />
+        </menu>
+    </item>
 </menu>
