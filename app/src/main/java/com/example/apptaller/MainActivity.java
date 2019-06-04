@@ -1,5 +1,6 @@
 package com.example.apptaller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -36,13 +37,12 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
        if(id == R.id.itemAutos) {
-            Toast toast = Toast.makeText(this, "Activity Autos", Toast.LENGTH_SHORT);
-            toast.show();
+
             return true;
        }
         if(id == R.id.itemPersonas) {
-            Toast toast = Toast.makeText(this, "Activity Personas", Toast.LENGTH_SHORT);
-            toast.show();
+            Intent intent = new Intent(this, Personas.class);
+            startActivity(intent);
             return true;
         }
         if(id == R.id.itemServicios) {
