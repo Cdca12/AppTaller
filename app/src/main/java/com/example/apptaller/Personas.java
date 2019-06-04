@@ -192,13 +192,11 @@ public class Personas extends AppCompatActivity {
         }
 
         // Valida que no esté dado de baja
-
         if (estaDadoBaja()) {
             Toast toast = Toast.makeText(this, "La persona está dada de baja", Toast.LENGTH_SHORT);
             toast.show();
             return;
         }
-        limpiarCampos();
 
         // Rellenar datos
         cursor.moveToFirst();

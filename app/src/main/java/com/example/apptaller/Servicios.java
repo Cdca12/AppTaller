@@ -1,5 +1,6 @@
 package com.example.apptaller;
 
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
@@ -115,7 +116,38 @@ public class Servicios extends AppCompatActivity {
     }
 
     private void consultarServicioPorOrden() {
-        
+        // Valida campo vacío
+        if (etOrden.getText().toString().equals("")) {
+            Toast toast = Toast.makeText(this, "Favor de ingresar un número de Orden", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+        String query = "SELECT * FROM SERVICIOS " +
+                "WHERE Orden = '" + etOrden.getText().toString().toUpperCase() + "';";
+
+        bd = conexion.getWritableDatabase();
+        Cursor cursor = bd.rawQuery(query, null);
+
+        // Validar que haya traido datos
+        if (cursor.getCount() == 0) {
+            Toast toast = Toast.makeText(this, "No existe esa orden de servicio", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+
+        cursor.moveToFirst();
+        etOrden.setText(cursor.getString(0));
+        etPlaca.setText(cursor.getString(1));
+        etRFC.setText(cursor.getString(2));
+        etKM.setText(cursor.getString(3));
+        etPrecio.setText(cursor.getString(4));
+        etFecha.setText(cursor.getString(5));
+
+        // Habilitar botones
+        habilitarBotones(true);
+
+        bd.close();
+
     }
 
     private void modificarServicio() {
