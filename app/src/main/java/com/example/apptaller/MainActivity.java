@@ -1,9 +1,11 @@
 package com.example.apptaller;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +39,16 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-       if(id == R.id.itemAutos) {
+        if (id == R.id.itemAutos) {
 
             return true;
-       }
-        if(id == R.id.itemPersonas) {
+        }
+        if (id == R.id.itemPersonas) {
             Intent intent = new Intent(this, Personas.class);
             startActivity(intent);
             return true;
         }
-        if(id == R.id.itemServicios) {
+        if (id == R.id.itemServicios) {
             Toast toast = Toast.makeText(this, "Activity Servicios", Toast.LENGTH_SHORT);
             toast.show();
             return true;
@@ -53,4 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
