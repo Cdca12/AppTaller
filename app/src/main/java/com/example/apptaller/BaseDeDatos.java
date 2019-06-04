@@ -8,16 +8,23 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BaseDeDatos extends SQLiteOpenHelper {
     private static BaseDeDatos instanciaBD;
     private static int version = 1;
-    private String queryUsuarios;
-    private String queryAutos;
+    private String queryPersonas, queryAutos, queryServicios;
 
     private BaseDeDatos(Context contexto, String nombre, SQLiteDatabase.CursorFactory factory, int version) {
         super(contexto, nombre, factory, version);
-        queryUsuarios = "CREATE TABLE PERSONAS(" +
-                "   RFC text PRIMARY KEY," +
-                "   Nombre text NOT NULL," +
-                "   Ciudad text NOT NULL," +
-                "   EstatusPersona integer DEFAULT 1 NOT NULL);";
+        queryPersonas = "CREATE TABLE PERSONAS(" +
+                "RFC text PRIMARY KEY," +
+                "Nombre text NOT NULL," +
+                "Ciudad text NOT NULL," +
+                "EstatusPersona integer DEFAULT 1 NOT NULL);";
+        queryAutos = "CREATE TABLE ";
+        queryServicios = "CREATE TABLE SERVICIOS(" +
+                "Orden int PRIMARY KEY, " +
+                "Placa text NOT NULL, " +
+                "RFC text NOT NULL, " +
+                "KM int NOT NULL, " +
+                "Precio float NOT NULL," +
+                "Fecha text NOT NULL);";
     }
 
     public static BaseDeDatos getInstance(Context context) {
@@ -29,7 +36,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(queryUsuarios);
+        db.execSQL(queryPersonas);
         version++;
     }
 
@@ -44,6 +51,8 @@ public class BaseDeDatos extends SQLiteOpenHelper {
                 "   Año integer NOT NULL," +
                 "   EstatusAuto integer DEFAULT 1 NOT NULL);";
         db.execSQL(queryAutos);
+        db.execSQL("DROP TABLE IF EXISTS queryPersonas;");
+        db.execSQL(queryPersonas);
     }
 
 }
