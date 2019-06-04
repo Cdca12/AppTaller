@@ -1,16 +1,20 @@
 package com.example.apptaller;
 
 import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.*;
 
 public class Personas extends AppCompatActivity {
 
     private EditText etNombre, etRFC, etCiudad;
-    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar;
+    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar, nuke;
 
     // Conexión a base de datos
     private BaseDeDatos conexion;
@@ -27,6 +31,7 @@ public class Personas extends AppCompatActivity {
         if (!conectarBaseDeDatos()) {
             return;
         }
+
     }
 
     private void bindComponents() {
@@ -37,9 +42,24 @@ public class Personas extends AppCompatActivity {
         btnConsultar = (Button) findViewById(R.id.btnConsultar);
         btnModificar = (Button) findViewById(R.id.btnModificar);
         btnEliminar = (Button) findViewById(R.id.btnEliminar);
+        nuke = (Button) findViewById(R.id.nuke);
     }
 
     private void addListeners() {
+        etRFC.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                habilitarBotones(false);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         btnAñadir.setOnClickListener(view -> {
             añadirPersona();
         });
@@ -47,10 +67,13 @@ public class Personas extends AppCompatActivity {
             consultarPersonaPorRFC();
         });
         btnModificar.setOnClickListener(view -> {
-
+            modificarPersona();
         });
         btnEliminar.setOnClickListener(view -> {
-
+            eliminarPersona();
+        });
+        nuke.setOnClickListener(view -> {
+            eliminarTodo();
         });
     }
 
@@ -66,15 +89,6 @@ public class Personas extends AppCompatActivity {
         Toast toast = Toast.makeText(this, "Conexión a la bd establecida", Toast.LENGTH_SHORT);
         toast.show();
         return true;
-    }
-
-    private boolean camposVacios() {
-        if (etNombre.getText().toString().equals("") &&
-                etRFC.getText().toString().equals("") &&
-                etCiudad.getText().toString().equals("")) {
-            return true;
-        }
-        return false;
     }
 
     private boolean camposIncompletos() {
@@ -102,16 +116,60 @@ public class Personas extends AppCompatActivity {
             return;
         }
         String query = "INSERT INTO PERSONAS (RFC, Nombre, Ciudad, EstatusPersona) " +
-                "VALUES ('" + etRFC.getText().toString() + "', '"
+                "VALUES ('" + etRFC.getText().toString().toUpperCase() + "', '"
                 + etNombre.getText().toString() + "', '"
                 + etCiudad.getText().toString() + "', 1);";
         bd = conexion.getWritableDatabase();
-        // TODO: Cachar por si tira excepción. ID repetido, otro excepcion general SQL que el mensaje diga error inesperado bd
-        bd.execSQL(query);
-        bd.close(); // Cerrar conexión a Base de Datos por seguridad
+
+        // ID Repetido, entra excepcion
+        try {
+            bd.execSQL(query);
+        } catch (SQLException e) {
+            if (estaDadoBaja()) {
+                darDeAlta();
+                return;
+            }
+                Toast toast = Toast.makeText(this, "Ya existe una persona con ese RFC", Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+
+        } finally {
+            bd.close(); // Cerrar conexión a Base de Datos por seguridad
+        }
         limpiarCampos();
         Toast toast = Toast.makeText(this, "Persona añadida exitosamente", Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    private boolean estaDadoBaja() {
+        String query = "SELECT EstatusPersona FROM PERSONAS " +
+                "WHERE RFC = '" + etRFC.getText().toString().toUpperCase() + "';";
+        bd = conexion.getWritableDatabase();
+        Cursor cursor = bd.rawQuery(query, null);
+        cursor.moveToFirst();
+        return (Integer.parseInt(cursor.getString(0)) == 0) ? true : false;
+    }
+
+    private void darDeAlta() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Persona dada de baja");
+        alertDialog.setMessage("Ya existe una persona con ese RFC dada de baja, ¿quisieras darla de alta con los nuevos datos?");
+        alertDialog.setNegativeButton("No", ((dialog, which) -> {
+        }));
+        alertDialog.setPositiveButton("Si", ((dialog, which) -> {
+            String query = "UPDATE PERSONAS " +
+                    "SET EstatusPersona = 1, " +
+                    "Nombre = '" + etNombre.getText().toString() + "', " +
+                    "Ciudad = '" + etCiudad.getText().toString() + "' " +
+                    "WHERE RFC = '" + etRFC.getText().toString().toUpperCase() + "';";
+            bd = conexion.getWritableDatabase();
+            bd.execSQL(query);
+            Toast toast = Toast.makeText(this, "Se ha dado de alta a la persona", Toast.LENGTH_SHORT);
+            toast.show();
+            bd.close();
+            limpiarCampos();
+        }));
+        alertDialog.show();
     }
 
     private void consultarPersonaPorRFC() {
@@ -121,7 +179,8 @@ public class Personas extends AppCompatActivity {
             toast.show();
             return;
         }
-        String query = "SELECT * FROM PERSONAS WHERE RFC = '" + etRFC.getText().toString().toUpperCase() + "';";
+        String query = "SELECT * FROM PERSONAS " +
+                "WHERE RFC = '" + etRFC.getText().toString().toUpperCase() + "';";
         bd = conexion.getWritableDatabase();
         Cursor cursor = bd.rawQuery(query, null);
 
@@ -133,8 +192,8 @@ public class Personas extends AppCompatActivity {
         }
 
         // Valida que no esté dado de baja
-        cursor.moveToFirst();
-        if (Integer.parseInt(cursor.getString(3)) == 0) {
+
+        if (estaDadoBaja()) {
             Toast toast = Toast.makeText(this, "La persona está dada de baja", Toast.LENGTH_SHORT);
             toast.show();
             return;
@@ -148,9 +207,64 @@ public class Personas extends AppCompatActivity {
         etCiudad.setText(cursor.getString(2));
 
         // Habilitar botones
-        btnModificar.setEnabled(true);
-        btnEliminar.setEnabled(true);
+        habilitarBotones(true);
 
+        bd.close();
+    }
+
+    private void habilitarBotones(boolean b) {
+        btnModificar.setEnabled(b);
+        btnEliminar.setEnabled(b);
+    }
+
+    private void eliminarPersona() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Eliminar " + etNombre.getText().toString());
+        alertDialog.setMessage("¿Seguro que desea eliminar a esta persona?");
+        alertDialog.setNegativeButton("No", ((dialog, which) -> {
+        }));
+        alertDialog.setPositiveButton("Si", ((dialog, which) -> {
+            String query = "UPDATE PERSONAS " +
+                    "SET EstatusPersona = 0 " +
+                    "WHERE RFC = '" + etRFC.getText().toString().toUpperCase() + "';";
+            bd = conexion.getWritableDatabase();
+            bd.execSQL(query);
+            Toast toast = Toast.makeText(this, "Se ha dado de baja a la persona", Toast.LENGTH_SHORT);
+            toast.show();
+            bd.close();
+            limpiarCampos();
+        }));
+        alertDialog.show();
+    }
+
+    private void modificarPersona() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Confirmar cambios");
+        alertDialog.setMessage("¿Desea confirmar los cambios?");
+        alertDialog.setNegativeButton("No", ((dialog, which) -> {
+        }));
+        alertDialog.setPositiveButton("Si", ((dialog, which) -> {
+            String query = "UPDATE PERSONAS " +
+                    "SET RFC = '" + etRFC.getText().toString().toUpperCase() + "', " +
+                    "Nombre = '" + etNombre.getText().toString() + "', " +
+                    "Ciudad = '" + etCiudad.getText().toString() + "' " +
+                    "WHERE RFC = '" + etRFC.getText().toString().toUpperCase() + "';";
+            bd = conexion.getWritableDatabase();
+            bd.execSQL(query);
+            Toast toast = Toast.makeText(this, "Se ha dado modificado a la persona", Toast.LENGTH_SHORT);
+            toast.show();
+            bd.close();
+            limpiarCampos();
+        }));
+        alertDialog.show();
+    }
+
+    private void eliminarTodo() {
+        String query = "DELETE FROM PERSONAS;";
+        bd = conexion.getWritableDatabase();
+        bd.execSQL(query);
+        Toast toast = Toast.makeText(this, "Se han eliminado todas las personas", Toast.LENGTH_SHORT);
+        toast.show();
         bd.close();
     }
 }

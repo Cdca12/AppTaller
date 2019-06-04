@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="62dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="100dp"
         android:ems="10"
         android:hint="Nombre"
         android:inputType="textPersonName"
@@ -46,6 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etRFC" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginStart="5dp"
@@ -86,4 +87,15 @@
             android:enabled="false"
             android:text="Eliminar" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/nuke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="63dp"
+        android:text="Nuke"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 </android.support.constraint.ConstraintLayout>
