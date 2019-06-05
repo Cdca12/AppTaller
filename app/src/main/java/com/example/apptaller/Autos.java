@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class Autos extends AppCompatActivity {
     private EditText etMarca, etModelo, etAño, etPlaca;
-    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar, btnNuke;
+    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar;
 
     // Conexión a base de datos
     private BaseDeDatos conexion;
@@ -45,7 +45,6 @@ public class Autos extends AppCompatActivity {
         btnConsultar = (Button) findViewById(R.id.btnSegundaConsulta);
         btnModificar = (Button) findViewById(R.id.btnModificar);
         btnEliminar = (Button) findViewById(R.id.btnEliminar);
-        btnNuke = (Button) findViewById(R.id.btnNuke);
     }
     private void addListeners() {
         etPlaca.addTextChangedListener(new TextWatcher() {
@@ -74,9 +73,6 @@ public class Autos extends AppCompatActivity {
         });
         btnEliminar.setOnClickListener(view -> {
             eliminarAuto();
-        });
-        btnNuke.setOnClickListener(view -> {
-            eliminarTodo();
         });
     }
 
@@ -259,14 +255,5 @@ public class Autos extends AppCompatActivity {
             limpiarCampos();
         }));
         alertDialog.show();
-    }
-
-    private void eliminarTodo() {
-        String query = "DELETE FROM AUTOS;";
-        bd = conexion.getWritableDatabase();
-        bd.execSQL(query);
-        Toast toast = Toast.makeText(this, "Se han eliminado todos los autos", Toast.LENGTH_SHORT);
-        toast.show();
-        bd.close();
     }
 }

@@ -13,7 +13,7 @@ import android.widget.*;
 public class Personas extends AppCompatActivity {
 
     private EditText etNombre, etRFC, etCiudad;
-    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar, btnNuke;
+    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar;
 
     // Conexión a base de datos
     private BaseDeDatos conexion;
@@ -44,7 +44,6 @@ public class Personas extends AppCompatActivity {
         btnConsultar = (Button) findViewById(R.id.btnSegundaConsulta);
         btnModificar = (Button) findViewById(R.id.btnModificar);
         btnEliminar = (Button) findViewById(R.id.btnEliminar);
-        btnNuke = (Button) findViewById(R.id.btnNuke);
     }
 
     private void addListeners() {
@@ -53,7 +52,6 @@ public class Personas extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 habilitarBotones(false);
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -73,9 +71,6 @@ public class Personas extends AppCompatActivity {
         });
         btnEliminar.setOnClickListener(view -> {
             eliminarPersona();
-        });
-        btnNuke.setOnClickListener(view -> {
-            eliminarTodo();
         });
     }
 
@@ -257,14 +252,5 @@ public class Personas extends AppCompatActivity {
             limpiarCampos();
         }));
         alertDialog.show();
-    }
-
-    private void eliminarTodo() {
-        String query = "DELETE FROM PERSONAS;";
-        bd = conexion.getWritableDatabase();
-        bd.execSQL(query);
-        Toast toast = Toast.makeText(this, "Se han eliminado todas las personas", Toast.LENGTH_SHORT);
-        toast.show();
-        bd.close();
     }
 }

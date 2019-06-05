@@ -13,7 +13,7 @@ import android.widget.*;
 public class Servicios extends AppCompatActivity {
 
     private EditText etOrden, etPlaca, etRFC, etKM, etPrecio, etFecha;
-    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar, btnNuke;
+    private Button btnAñadir, btnConsultar, btnModificar, btnEliminar;
 
     // Conexión a base de datos
     private BaseDeDatos conexion;
@@ -46,7 +46,6 @@ public class Servicios extends AppCompatActivity {
         btnConsultar = (Button) findViewById(R.id.btnSegundaConsulta);
         btnModificar = (Button) findViewById(R.id.btnModificar);
         btnEliminar = (Button) findViewById(R.id.btnEliminar);
-        btnNuke = (Button) findViewById(R.id.btnNuke);
     }
 
     private void addListeners() {
@@ -75,9 +74,6 @@ public class Servicios extends AppCompatActivity {
         });
         btnEliminar.setOnClickListener(view -> {
             eliminarServicio();
-        });
-        btnNuke.setOnClickListener(view -> {
-            eliminarTodo();
         });
     }
 
@@ -203,15 +199,6 @@ public class Servicios extends AppCompatActivity {
             limpiarCampos();
         }));
         alertDialog.show();
-    }
-
-    private void eliminarTodo() {
-        String query = "DELETE FROM SERVICIOS;";
-        bd = conexion.getWritableDatabase();
-        bd.execSQL(query);
-        Toast toast = Toast.makeText(this, "Se han eliminado todos los servicios", Toast.LENGTH_SHORT);
-        toast.show();
-        bd.close();
     }
 
     private boolean conectarBaseDeDatos() {
