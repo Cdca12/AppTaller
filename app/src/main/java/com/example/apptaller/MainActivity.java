@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, Consultas.class);
             query = "SELECT * FROM PERSONAS;";
             intent.putExtra("query", query);
+            intent.putExtra("tipoConsulta", 1);
             startActivity(intent);
             return true;
         }
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, Consultas.class);
             query = "Segunda Consulta";
             intent.putExtra("query", query);
+            intent.putExtra("tipoConsulta", 2);
             startActivity(intent);
             return true;
         }
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, Consultas.class);
             query = "Tercera Consulta";
             intent.putExtra("query", query);
+            intent.putExtra("tipoConsulta", 3);
             startActivity(intent);
             return true;
         }

@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.*;
 
@@ -13,9 +14,12 @@ import java.util.ArrayList;
 
 public class Consultas extends AppCompatActivity {
 
-    private ArrayList<String> infoConsulta;
-    private ListView listaConsulta;
+    private RecyclerView reciclerViewConsulta;
+    private TextView tvHeader1, tvHeader2, tvHeader3, tvHeader4, tvHeader5;
+
+    private ArrayList<Consulta1> listaConsulta1;
     private String query;
+    private int tipoConsulta;
 
     // Conexión a base de datos
     private BaseDeDatos conexion;
@@ -25,42 +29,45 @@ public class Consultas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultas);
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        bindComponents();
+        getBundle();
 
         if (!conectarBaseDeDatos()) {
             return;
         }
 
-        mRecyclerView.setHasFixedSize(true);
+        rellenarHeaders();
 
-        // Nuestro RecyclerView usará un linear layout manager
+        reciclerViewConsulta.setHasFixedSize(true); // ¿Qué hace?
+
+        // Nuestro RecyclerView usará un Linear Layout Manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        mRecyclerView.setLayoutManager(layoutManager);
+        reciclerViewConsulta.setLayoutManager(layoutManager);
 
-        // Asociamos un adapter (ver más adelante cómo definirlo)
-
-
-
-        query = getIntent().getStringExtra("query");
-
-
-
-
-        if(tipo==1){
-            ArrayList<Consulta1> jajaj= rellenarListaConsulta1(query);
-             AdaptadorConsulta1 ad= new AdaptadorConsulta1(jajaj);
-            mRecyclerView.setAdapter(ad);
+        // Asociamos un adapter dependiendo el tipo de consulta
+        if (tipoConsulta == 1) {
+            ArrayList<Consulta1> listaConsulta1 = rellenarListaConsulta1(query);
+            AdaptadorConsulta1 adaptadorConsulta1 = new AdaptadorConsulta1(listaConsulta1);
+            reciclerViewConsulta.setAdapter(adaptadorConsulta1);
+            // return;
         }
 
-        // bindComponents();
-        listaConsulta = (ListView) findViewById(R.id.listaConsulta);
-        infoConsulta = new ArrayList<String>();
-
-        rellenarLista();
     }
 
     private void bindComponents() {
-        listaConsulta = (ListView) findViewById(R.id.listaConsulta);
+        reciclerViewConsulta = (RecyclerView) findViewById(R.id.reciclerViewConsulta);
+
+        tvHeader1 = (TextView) findViewById(R.id.tvHeader1);
+        tvHeader2 = (TextView) findViewById(R.id.tvHeader2);
+        tvHeader3 = (TextView) findViewById(R.id.tvHeader3);
+        tvHeader4 = (TextView) findViewById(R.id.tvHeader4);
+        tvHeader5 = (TextView) findViewById(R.id.tvHeader5);
+    }
+
+    private void getBundle() {
+        query = getIntent().getStringExtra("query");
+        tipoConsulta = getIntent().getIntExtra("tipoConsulta", 1);
     }
 
     private boolean conectarBaseDeDatos() {
@@ -76,46 +83,37 @@ public class Consultas extends AppCompatActivity {
         return true;
     }
 
-    private List<Consulta1> rellenarLista() {
+    private ArrayList<Consulta1> rellenarListaConsulta1(String query) {
+        ArrayList<Consulta1> listaConsulta1Aux = new ArrayList<>();
         bd = conexion.getWritableDatabase();
         Cursor cursor = bd.rawQuery(query, null);
 
-        Consulta1 consulta;
-
-        while(cursor.moveToNext()) {
-            consulta = new Consulta1(cursor.getString(0), );
-            consulta.setPrimeraColumna();
-            consulta.setSegundaColumna(cursor.getString(1));
-            consulta.setTerceraColumna(cursor.getString(2));
-            consulta.setCuartaColumna(cursor.getString(3));
-            consulta.setQuintaColumna(cursor.getString(4));
-
-            listaConsulta.add(consulta);
-
-        }
-
-        LinearLayout headers = (LinearLayout) findViewById(R.id.tupla);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.MATCH_PARENT,
-                1.0f
-        );
-
-        TextView encabezado1 = new TextView(this);
-        encabezado1.setText("RFC");
-        // encabezado1.setLayoutParams(params);
-        headers.addView(encabezado1);
-
-
+        Consulta1 consultaAux;
 
         while (cursor.moveToNext()) {
+            consultaAux = new Consulta1();
 
-            infoConsulta.add(cursor.getString(0));
+            consultaAux.setCiudad(cursor.getString(0));
+            consultaAux.setIngresoTotal(cursor.getString(1));
+            consultaAux.setIngresoMenor(cursor.getString(2));
+            consultaAux.setIngresoMayor(cursor.getString(3));
+            consultaAux.setIngresoPromedio(cursor.getString(4));
+
+            listaConsulta1Aux.add(consultaAux);
         }
-
-
-
         bd.close();
+        return listaConsulta1Aux;
+    }
+
+    private void rellenarHeaders() {
+
+        if (tipoConsulta == 1) {
+            tvHeader1.setText(Consulta1.nombreColumnas[0]);
+            tvHeader2.setText(Consulta1.nombreColumnas[1]);
+            tvHeader3.setText(Consulta1.nombreColumnas[2]);
+            tvHeader4.setText(Consulta1.nombreColumnas[3]);
+            tvHeader5.setText(Consulta1.nombreColumnas[4]);
+            return;
+        }
     }
 }
