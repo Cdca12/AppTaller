@@ -87,15 +87,6 @@ public class Personas extends AppCompatActivity {
             return false;
         }
         // Conexión a la bd establecida
-        bd = conexion.getWritableDatabase();
-        bd.execSQL("INSERT INTO PERSONAS\n" +
-                "VALUES\n" +
-                "\t('FOMA770826LH2', 'Antonio Flores', 'Mochis', 1),\n" +
-                "\t('MOVR980815LH7', 'Ruben Valdez', 'Navolato', 1),\n" +
-                "\t('COAC990120LH5', 'Carlos Contreras', 'Culiacan', 1),\n" +
-                "\t('RIOJ950810LH1', 'Juan Rivera', 'Cosala', 1),\n" +
-                "\t('SADA990824LH9', 'Ana Sanchez', 'Culiacan', 1);");
-        bd.close();
         return true;
     }
 

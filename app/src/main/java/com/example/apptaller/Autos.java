@@ -88,15 +88,6 @@ public class Autos extends AppCompatActivity {
             return false;
         }
         // Conexión a la bd establecida
-        bd = conexion.getWritableDatabase();
-        bd.execSQL("INSERT INTO AUTOS\n" +
-                "VALUES\n" +
-                "\t('VPS712A', 'Chevrolet', 'Aveo', 2018, 1),\n" +
-                "\t('VSY1516', 'Nissan', 'Versa', 2019, 1),\n" +
-                "\t('VSR4079', 'Chevrolet', 'Spark', 2017, 1),\n" +
-                "\t('VLC834A', 'Chevrolet', 'Beat', 2016, 1),\n" +
-                "\t('VTA2088', 'Honda', 'City', 2017, 1);");
-        bd.close();
         return true;
     }
 

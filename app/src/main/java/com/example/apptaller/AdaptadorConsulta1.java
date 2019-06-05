@@ -47,10 +47,10 @@ public class AdaptadorConsulta1 extends RecyclerView.Adapter<AdaptadorConsulta1.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.txtCiudad.setText(listaConsulta1.get(i).getCiudad());
-        viewHolder.txtIngresoTotal.setText(listaConsulta1.get(i).getIngresoTotal());
-        viewHolder.txtIngresoMenor.setText(listaConsulta1.get(i).getIngresoMenor());
-        viewHolder.txtIngresoMayor.setText(listaConsulta1.get(i).getIngresoMayor());
-        viewHolder.txtIngresoPromedio.setText(listaConsulta1.get(i).getIngresoPromedio());
+        viewHolder.txtIngresoTotal.setText("$" + listaConsulta1.get(i).getIngresoTotal());
+        viewHolder.txtIngresoMenor.setText("$" + listaConsulta1.get(i).getIngresoMenor());
+        viewHolder.txtIngresoMayor.setText("$" + listaConsulta1.get(i).getIngresoMayor());
+        viewHolder.txtIngresoPromedio.setText("$" + listaConsulta1.get(i).getIngresoPromedio());
     }
 
     @Override

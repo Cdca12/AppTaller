@@ -222,15 +222,6 @@ public class Servicios extends AppCompatActivity {
             return false;
         }
         // Conexión a la bd establecida
-        bd = conexion.getWritableDatabase();
-        bd.execSQL("INSERT INTO SERVICIOS\n" +
-                "VALUES\n" +
-                "\t(1, 'VPS712A', 'FOMA770826LH2', 100, 2000, '20190604', 1),\n" +
-                "\t(2, 'VSY1516', 'MOVR980815LH7', 200, 2500, '20190430', 1),\n" +
-                "\t(3, 'VSR4079', 'COAC990120LH5', 300, 3000, '20190515', 1),\n" +
-                "\t(4, 'VLC834A', 'RIOJ950810LH1', 400, 3500, '20190526', 1),\n" +
-                "\t(5, 'VTA2088', 'SADA990824LH9', 500, 4000, '20190503', 1);");
-        bd.close();
         return true;
     }
 

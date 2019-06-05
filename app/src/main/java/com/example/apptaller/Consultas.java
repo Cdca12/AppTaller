@@ -50,7 +50,13 @@ public class Consultas extends AppCompatActivity {
             ArrayList<Consulta1> listaConsulta1 = rellenarListaConsulta1(query);
             AdaptadorConsulta1 adaptadorConsulta1 = new AdaptadorConsulta1(listaConsulta1);
             reciclerViewConsulta.setAdapter(adaptadorConsulta1);
-            // return;
+            return;
+        }
+        if (tipoConsulta == 2) {
+            ArrayList<Consulta2> listaConsulta2 = rellenarListaConsulta2(query);
+            AdaptadorConsulta2 adaptadorConsulta2 = new AdaptadorConsulta2(listaConsulta2);
+            reciclerViewConsulta.setAdapter(adaptadorConsulta2);
+            return;
         }
 
     }
@@ -67,7 +73,7 @@ public class Consultas extends AppCompatActivity {
 
     private void getBundle() {
         query = getIntent().getStringExtra("query");
-        tipoConsulta = getIntent().getIntExtra("tipoConsulta", 1);
+        tipoConsulta = getIntent().getIntExtra("tipoConsulta", 0);
     }
 
     private boolean conectarBaseDeDatos() {
@@ -81,6 +87,25 @@ public class Consultas extends AppCompatActivity {
         }
         // Conexión a la bd establecida
         return true;
+    }
+
+    private void rellenarHeaders() {
+        if (tipoConsulta == 1) {
+            tvHeader1.setText(Consulta1.nombreColumnas[0]);
+            tvHeader2.setText(Consulta1.nombreColumnas[1]);
+            tvHeader3.setText(Consulta1.nombreColumnas[2]);
+            tvHeader4.setText(Consulta1.nombreColumnas[3]);
+            tvHeader5.setText(Consulta1.nombreColumnas[4]);
+            return;
+        }
+        if (tipoConsulta == 2) {
+            tvHeader1.setText(Consulta2.nombreColumnas[0]);
+            tvHeader2.setText(Consulta2.nombreColumnas[1]);
+            tvHeader3.setText(Consulta2.nombreColumnas[2]);
+            tvHeader4.setText(Consulta2.nombreColumnas[3]);
+            tvHeader5.setVisibility(View.GONE); // Ocultar y distribuir width
+            return;
+        }
     }
 
     private ArrayList<Consulta1> rellenarListaConsulta1(String query) {
@@ -105,15 +130,24 @@ public class Consultas extends AppCompatActivity {
         return listaConsulta1Aux;
     }
 
-    private void rellenarHeaders() {
+    private ArrayList<Consulta2> rellenarListaConsulta2(String query) {
+        ArrayList<Consulta2> listaConsulta2Aux = new ArrayList<>();
+        bd = conexion.getWritableDatabase();
+        Cursor cursor = bd.rawQuery(query, null);
 
-        if (tipoConsulta == 1) {
-            tvHeader1.setText(Consulta1.nombreColumnas[0]);
-            tvHeader2.setText(Consulta1.nombreColumnas[1]);
-            tvHeader3.setText(Consulta1.nombreColumnas[2]);
-            tvHeader4.setText(Consulta1.nombreColumnas[3]);
-            tvHeader5.setText(Consulta1.nombreColumnas[4]);
-            return;
+        Consulta2 consultaAux;
+
+        while (cursor.moveToNext()) {
+            consultaAux = new Consulta2();
+
+            consultaAux.setAño(cursor.getString(0));
+            consultaAux.setCiudad(cursor.getString(1));
+            consultaAux.setMarca(cursor.getString(2));
+            consultaAux.setImporteTotal(cursor.getString(3));
+
+            listaConsulta2Aux.add(consultaAux);
         }
+        bd.close();
+        return listaConsulta2Aux;
     }
 }
