@@ -49,18 +49,30 @@ public class Consultas extends AppCompatActivity {
 
         // Asociamos un adapter dependiendo el tipo de consulta
         if (tipoConsulta == 1) {
+            query = "SELECT Ciudad, SUM(Precio) IngresoTotal, MIN(Precio) IngresoMenor, " +
+                    "MAX(Precio) IngresoMayor, AVG(Precio) IngresoPromedio FROM SERVICIOS serv " +
+                    "INNER JOIN PERSONAS pers ON serv.RFC = pers.RFC " +
+                    "GROUP BY Ciudad;";
             ArrayList<Consulta1> listaConsulta1 = rellenarListaConsulta1(query);
             AdaptadorConsulta1 adaptadorConsulta1 = new AdaptadorConsulta1(listaConsulta1);
             reciclerViewConsulta.setAdapter(adaptadorConsulta1);
             return;
         }
         if (tipoConsulta == 2) {
+            query = "SELECT substr(Fecha,  1, 4) Año, Ciudad, Marca, " +
+                    "SUM(Precio) ImporteTotal FROM SERVICIOS serv " +
+                    "INNER JOIN PERSONAS pers ON serv.RFC = pers.RFC " +
+                    "INNER JOIN AUTOS autos ON serv.Placa = autos.Placa " +
+                    "GROUP BY Año, Ciudad, Marca;";
             ArrayList<Consulta2> listaConsulta2 = rellenarListaConsulta2(query);
             AdaptadorConsulta2 adaptadorConsulta2 = new AdaptadorConsulta2(listaConsulta2);
             reciclerViewConsulta.setAdapter(adaptadorConsulta2);
             return;
         }
         if (tipoConsulta == 3) {
+            query = "SELECT RFC, Nombre FROM PERSONAS WHERE RFC NOT IN( " +
+                    "SELECT RFC FROM SERVICIOS) " +
+                    "GROUP BY RFC, Nombre";
             ArrayList<Consulta3> listaConsulta3 = rellenarListaConsulta3(query);
             AdaptadorConsulta3 adaptadorConsulta3 = new AdaptadorConsulta3(listaConsulta3);
             reciclerViewConsulta.setAdapter(adaptadorConsulta3);

@@ -63,14 +63,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         // Menu Consultas
-        String query;
         if (id == R.id.itemPrimeraConsulta) {
             Intent intent = new Intent(this, Consultas.class);
-            query = "SELECT Ciudad, SUM(Precio) IngresoTotal, MIN(Precio) IngresoMenor,\n" +
-                    "MAX(Precio) IngresoMayor, AVG(Precio) IngresoPromedio FROM SERVICIOS serv \n" +
-                    "INNER JOIN PERSONAS pers ON serv.RFC = pers.RFC\n" +
-                    "GROUP BY Ciudad;";
-            intent.putExtra("query", query);
             intent.putExtra("tipoConsulta", 1);
             intent.putExtra("titulo", "Ingresos por Ciudad");
             startActivity(intent);
@@ -78,12 +72,6 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.itemSegundaConsulta) {
             Intent intent = new Intent(this, Consultas.class);
-            query = "SELECT substr(Fecha,  1, 4) Año, Ciudad, Marca, \n" +
-                    "SUM(Precio) ImporteTotal FROM SERVICIOS serv\n" +
-                    "INNER JOIN PERSONAS pers ON serv.RFC = pers.RFC\n" +
-                    "INNER JOIN AUTOS autos ON serv.Placa = autos.Placa\n" +
-                    "GROUP BY substr(Fecha,  1, 4), Ciudad, Marca;";
-            intent.putExtra("query", query);
             intent.putExtra("tipoConsulta", 2);
             intent.putExtra("titulo", "Servicios Año-Ciudad-Marca");
             startActivity(intent);
@@ -91,11 +79,6 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.itemTerceraConsulta) {
             Intent intent = new Intent(this, Consultas.class);
-            query = "SELECT RFC, Nombre FROM PERSONAS WHERE RFC NOT IN(\n" +
-                    "\tSELECT RFC FROM SERVICIOS\n" +
-                    ")\n" +
-                    "GROUP BY RFC, Nombre";
-            intent.putExtra("query", query);
             intent.putExtra("tipoConsulta", 3);
             intent.putExtra("titulo", "Personas sin Autos en Servicio");
             startActivity(intent);
