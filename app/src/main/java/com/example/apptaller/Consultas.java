@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.*;
 
 import java.util.ArrayList;
@@ -23,12 +25,32 @@ public class Consultas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultas);
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         if (!conectarBaseDeDatos()) {
             return;
         }
 
+        mRecyclerView.setHasFixedSize(true);
+
+        // Nuestro RecyclerView usará un linear layout manager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        // Asociamos un adapter (ver más adelante cómo definirlo)
+
+
+
         query = getIntent().getStringExtra("query");
+
+
+
+
+        if(tipo==1){
+            ArrayList<Consulta1> jajaj= rellenarListaConsulta1(query);
+             AdaptadorConsulta1 ad= new AdaptadorConsulta1(jajaj);
+            mRecyclerView.setAdapter(ad);
+        }
 
         // bindComponents();
         listaConsulta = (ListView) findViewById(R.id.listaConsulta);
@@ -54,11 +76,25 @@ public class Consultas extends AppCompatActivity {
         return true;
     }
 
-    private void rellenarLista() {
+    private List<Consulta1> rellenarLista() {
         bd = conexion.getWritableDatabase();
         Cursor cursor = bd.rawQuery(query, null);
 
-        LinearLayout headers = (LinearLayout) findViewById(R.id.headers);
+        Consulta1 consulta;
+
+        while(cursor.moveToNext()) {
+            consulta = new Consulta1(cursor.getString(0), );
+            consulta.setPrimeraColumna();
+            consulta.setSegundaColumna(cursor.getString(1));
+            consulta.setTerceraColumna(cursor.getString(2));
+            consulta.setCuartaColumna(cursor.getString(3));
+            consulta.setQuintaColumna(cursor.getString(4));
+
+            listaConsulta.add(consulta);
+
+        }
+
+        LinearLayout headers = (LinearLayout) findViewById(R.id.tupla);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 TableRow.LayoutParams.MATCH_PARENT,
@@ -70,6 +106,7 @@ public class Consultas extends AppCompatActivity {
         encabezado1.setText("RFC");
         // encabezado1.setLayoutParams(params);
         headers.addView(encabezado1);
+
 
 
         while (cursor.moveToNext()) {
