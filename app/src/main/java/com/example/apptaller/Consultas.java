@@ -30,6 +30,8 @@ public class Consultas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultas);
 
+        setTitle(getIntent().getStringExtra("titulo"));
+
         bindComponents();
         getBundle();
 

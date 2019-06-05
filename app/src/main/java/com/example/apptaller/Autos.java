@@ -25,6 +25,8 @@ public class Autos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_autos);
 
+        setTitle("Autos");
+
         bindComponents();
         addListeners();
 

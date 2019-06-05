@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setTitle("Plaza Nisson");
+
         if (!conectarBaseDeDatos()) {
             return;
         }
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     "GROUP BY Ciudad;";
             intent.putExtra("query", query);
             intent.putExtra("tipoConsulta", 1);
+            intent.putExtra("titulo", "Ingresos por Ciudad");
             startActivity(intent);
             return true;
         }
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     "GROUP BY substr(Fecha,  1, 4), Ciudad, Marca;";
             intent.putExtra("query", query);
             intent.putExtra("tipoConsulta", 2);
+            intent.putExtra("titulo", "Servicios Año-Ciudad-Marca");
             startActivity(intent);
             return true;
         }
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     "GROUP BY RFC, Nombre";
             intent.putExtra("query", query);
             intent.putExtra("tipoConsulta", 3);
+            intent.putExtra("titulo", "Personas sin Autos en Servicio");
             startActivity(intent);
             return true;
         }

@@ -24,6 +24,8 @@ public class Personas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personas);
 
+        setTitle("Personas");
+
         bindComponents();
         addListeners();
 
