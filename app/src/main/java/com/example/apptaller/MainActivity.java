@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.show();
             return false;
         }
-        Toast toast = Toast.makeText(this, "Conexión a la bd establecida", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, "Conexión establecida", Toast.LENGTH_SHORT);
         toast.show();
         return true;
     }
