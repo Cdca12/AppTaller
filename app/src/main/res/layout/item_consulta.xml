@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tupla"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="40sp">
 
 
     <TextView
@@ -12,16 +12,18 @@
         android:layout_width="193dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Nombre : Juan"
-        android:textAlignment="center" />
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/tv2"
         android:layout_width="193dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Carro: Volswakegn"
-        android:textAlignment="center" />
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/tv3"
@@ -29,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="TextView"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/tv4"
@@ -37,7 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="TextView"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/tv5"
@@ -45,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="TextView"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
 </LinearLayout>

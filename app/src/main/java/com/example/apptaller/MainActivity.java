@@ -62,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
         String query;
         if (id == R.id.itemPrimeraConsulta) {
             Intent intent = new Intent(this, Consultas.class);
-            query = "SELECT * FROM PERSONAS;";
+            query = "SELECT Ciudad, SUM(Precio) IngresoTotal, MIN(Precio) IngresoMenor,\n" +
+                    "MAX(Precio) IngresoMayor, AVG(Precio) IngresoPromedio FROM SERVICIOS serv \n" +
+                    "INNER JOIN PERSONAS pers ON serv.RFC = pers.RFC\n" +
+                    "GROUP BY Ciudad";
             intent.putExtra("query", query);
             intent.putExtra("tipoConsulta", 1);
             startActivity(intent);
